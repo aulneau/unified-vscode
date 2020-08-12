@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0-beta.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "copy:data": "mkdir dist/data && cp -r src/shiki/data/* dist/data",
+    "postbuild": "yarn copy:data",
+    "prepublishOnly": "yarn build",
+    "lint": "tsdx lint"
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": "@blockstack/prettier-config",
+  "name": "unified-vscode",
+  "author": "Thomas Osmonson",
+  "module": "dist/unified-vscode.esm.js",
+  "devDependencies": {
+    "@blockstack/prettier-config": "^0.0.6",
+    "@types/fs-extra": "^9.0.1",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "cache-manager": "^3.3.0",
+    "cache-manager-fs-hash": "^0.0.9",
+    "fs-extra": "^9.0.1",
+    "hast-util-to-string": "^1.0.4",
+    "json5": "^2.1.0",
+    "micro-memoize": "^4.0.9",
+    "onigasm": "^2.2.1",
+    "oniguruma": "^7.2.1",
+    "p-all": "^3.0.0",
+    "unist-builder": "^2.0.3",
+    "unist-util-select": "^3.0.1",
+    "unist-util-visit": "^2.0.3",
+    "vscode-textmate": "https://github.com/octref/vscode-textmate"
+  }
+}
