@@ -70,11 +70,11 @@
     "constants": {
       "patterns": [
         {
-          "match": "\\'(true|false)",
+          "match": "(true|false)",
           "name": "constant.language.boolean.clarity"
         },
         {
-          "match": "(?<=[\\(\\s])((#e|#i)?[0-9]+(\\.[0-9]+)?|(#x)[0-9a-fA-F]+|(#o)[0-7]+|(#b)[01]+)(?=[\\s;()'\",\\[\\]])",
+          "match": "[-]?u?\\d+",
           "name": "constant.numeric.clarity"
         },
         {
@@ -90,11 +90,11 @@
     "language-functions": {
       "patterns": [
         {
-          "match": "(?x)  (?<=(\\s|\\()) # preceded by space or (\\n\n  ( or|and|xor|not|begin|let|if|ok|err|\n    unwrap!|unwrap-err!|unwrap-panic|unwrap-err-panic|match|try!|asserts!\n    map-get\\?|var-get|contract-map-get\\?|get|tuple|\n    define-public|define-private|define-constant|define-map|define-data-var|\n    define-fungible-token|define-non-fungible-token|\n    define-read-only|let\\* )\n  (?=(\\s|\\())\n",
+          "match": "(?x)  (?<=(\\s|\\()) # preceded by space or (\\n\n  ( begin|let|if|ok|err|unwrap!|unwrap-err!|unwrap-panic|unwrap-err-panic|match|try!|asserts!|define-public|define-private|define-constant|define-map|define-data-var|define-fungible-token|define-non-fungible-token|define-read-only|let\\* )\n  (?=(\\s|\\())\n",
           "name": "keyword.control.clarity"
         },
         {
-          "match": "(?x)  (?<=(\\s|\\()) # preceded by space or (\n  ( is-eq|is-some|is-none|is-ok|is-err )\n  (?=(\\s|\\()) # followed by space or (\n",
+          "match": "(?x)  (?<=(\\s|\\()) # preceded by space or (\n  ( or|and|xor|not|is-eq|is-some|is-none|is-ok|is-err )\n  (?=(\\s|\\()) # followed by space or (\n",
           "name": "support.function.boolean-test.clarity"
         },
         {
@@ -110,7 +110,7 @@
           "name": "support.function.arithmetic.clarity"
         },
         {
-          "match": "(?x)  (?<=(\\s|\\()) # preceded by space or (\n  ( list|map|filter|fold|len|concat|append|as-max-len\\?|to-int|to-uint|\n    buff|hash160|sha256|sha512|sha512/256|keccak256 )\n  (?=(\\s|\\()) # followed by space or (\n",
+          "match": "(?x)  (?<=(\\s|\\()) # preceded by space or (\n  ( map-get\\?|var-get|contract-map-get\\?|get|tuple|print|some|default-to|list|map|filter|fold|len|concat|append|as-max-len\\?|to-int|to-uint|buff|hash160|sha256|sha512|sha512/256|keccak256 ) (?=(\\s|\\())",
           "name": "support.function.general.clarity"
         }
       ]
@@ -140,48 +140,18 @@
           "include": "#define-map"
         },
         {
-          "begin": "(?x) (?<=\\() # preceded by (  (define-public|define-private|define-constant|define-read-only)\\s+\n  \\(    # open parens\n    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\n    ((\\s+\n      \\( # open parens for parameter/type pair\n      \\s*\n      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\n      \\s+\n      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\n      \\s*\n      \\) # close parens for parameter/type pair\n      \\s*\n      )*)\n    \\s*\n  \\)    # close parens\n",
+          "begin": "(?x) (?<=\\() (define-public|define-private|define-constant|define-read-only)\\s+  \\(  ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)   ((\\s+     \\(      \\s*     ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)   \\s+     ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)     \\s*     \\)  \\s*      )*)   \\s*  \\)    # close parens",
           "captures": {
             "1": {
               "name": "keyword.control.clarity"
             },
             "2": {
               "name": "entity.name.function.clarity"
-            },
-            "4": {
-              "name": "variable.parameter.function.clarity"
             }
           },
           "end": "(?=\\))",
           "name": "meta.declaration.procedure.clarity",
           "patterns": [
-            {
-              "include": "#comment"
-            },
-            {
-              "include": "#sexp"
-            },
-            {
-              "include": "#illegal"
-            }
-          ]
-        },
-        {
-          "begin": "(?<=\\()(define)\\s([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?",
-          "captures": {
-            "1": {
-              "name": "keyword.control.clarity"
-            },
-            "2": {
-              "name": "variable.other.clarity"
-            }
-          },
-          "end": "(?=\\))",
-          "name": "meta.declaration.variable.clarity",
-          "patterns": [
-            {
-              "include": "#constants"
-            },
             {
               "include": "#comment"
             },
